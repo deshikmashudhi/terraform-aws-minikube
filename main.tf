@@ -114,6 +114,25 @@ data "cloudinit_config" "minikube_cloud_init" {
     content = templatefile("${path.module}/scripts/init-aws-minikube.sh", { kubeadm_token = module.kubeadm-token.token, dns_name = "${var.cluster_name}.${var.hosted_zone}", ip_address = aws_eip.minikube.public_ip, cluster_name = var.cluster_name, kubernetes_version = var.kubernetes_version, addons = join(" ", var.addons) } )
   }
 }
+filter {
+    name = "product-code"
+    values = ["aw0evgkw8e5c1q413zgy5pjce", "cvugziknvmxgqna9noibqnnsy"]
+  }
+
+  filter {
+    name = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+resource "aws_eip" "minikube" {
+  vpc = true
+}
 
 ##########
 # Keypair
