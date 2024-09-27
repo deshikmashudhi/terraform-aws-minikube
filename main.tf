@@ -124,33 +124,6 @@ resource "aws_key_pair" "minikube_keypair" {
   public_key = file(var.ssh_public_key)
 }
 
-#####
-# EC2 instance
-#####
-
-data "aws_ami" "centos7" {
-  most_recent = true
-  owners = ["aws-marketplace"]
-
-  filter {
-    name = "product-code"
-    values = ["aw0evgkw8e5c1q413zgy5pjce", "cvugziknvmxgqna9noibqnnsy"]
-  }
-
-  filter {
-    name = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name = "virtualization-type"
-    values = ["hvm"]
-  }
-}
-
-resource "aws_eip" "minikube" {
-  vpc = true
-}
 
 resource "aws_instance" "minikube" {
   # Instance type - any of the c4 should do for now
